@@ -67,9 +67,10 @@ const renderToDom = (divId, textToPrint) => {
     selectedDiv.innerHTML = textToPrint;
 };
 
+
+
 const buttons = () => {
-    const domString =
-        `
+    const domString = `
     <button type="button" class="btn btn-primary" id="All">All</button>
     <button type="button" class="btn btn-secondary" id="Trinity">Trinity</button>
     <button type="button" class="btn btn-success" id="Aja">Aja</button>
@@ -78,6 +79,49 @@ const buttons = () => {
 
     renderToDom("#buttonContainer", domString);
 };
+
+const pieForm = () => {
+    const domString = `
+        <form id="pieForm">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input required type="text" class="form-control" id="name">
+            </div>
+            <div class="mb-3">
+                <label for="ingredients" class="form-label">Ingredients</label>
+                <input required type="text" class="form-control" id="ingredients">
+            </div>
+            <div class="mb-3">
+                <label for="bakeTemp" class="form-label">Baking Temperature</label>
+                <input required type="number" class="form-control" id="bakeTemp">
+            </div>
+            <div class="mb-3">
+                <label for="drinkPairing" class="form-label">Drink Pairing</label>
+                <input required type="text" class="form-control" id="drinkPairing">
+            </div>
+            <div class="mb-3">
+                <label for="imageUrl" class="form-label">Image URL</label>
+                <input required type="url" class="form-control" id="imageUrl">
+            </div>
+            <div class="mb-3">
+                <label for="instructor" class="form-label">Instructor</label>
+                <input required type="text" class="form-control" id="instructor">
+            </div>
+            <div class="mb-3">
+                <label for="iceCream" class="form-label">Ice Cream</label>
+                <input required type="text" class="form-control" id="iceCream">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    `;
+
+    renderToDom("#pieForm", domString);
+};
+
+const pieFormEvents = () => {
+    const pieFormElement = document.querySelector("#pieForm");
+    pieFormElement.addEventListener("submit", handleFormSubmit);
+}
 
 const filterPies = (array, instructor) => {
     return array.filter(pieObj => pieObj.instructor === instructor);
@@ -89,6 +133,23 @@ const handleButtonClick = (event) => {
     } else {
         pieBuilder(filterPies(pies, event.target.id));
     };
+};
+
+const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const newPie = {
+        name: document.querySelector("#name").value,
+        ingredients: document.querySelector("#ingredients").value,
+        bakeTemp: document.querySelector("#bakeTemp").value,
+        drinkPairing: document.querySelector("#drinkPairing").value,
+        imageUrl: document.querySelector("#imageUrl").value,
+        instructor: document.querySelector("#instructor").value,
+        iceCream: document.querySelector("#iceCream").value
+    }
+
+    pies.push(newPie);
+    
+    pieBuilder(pies);
 };
 
 
@@ -117,8 +178,13 @@ const buttonEvents = () => {
 };
 
 const init = () => {
+    // Render Elements
     buttons();
+    pieForm();
+
+    // Register Event Listeners
     buttonEvents();
+    pieFormEvents();
 
     pieBuilder(pies);
 };

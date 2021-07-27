@@ -10,6 +10,10 @@
     margin: 10px;
 }
 
+form {
+    margin: 20px;
+};
+
 #buttonContainer {
     background-color: aqua;
 }
